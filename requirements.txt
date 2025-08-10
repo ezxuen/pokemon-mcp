@@ -17,5 +17,4 @@ isort>=5.12.0
 mypy>=1.5.0
 
 # Additional runtime dependencies
-pathlib2>=2.3.7; p
-ython_version < '3.4'
+pathlib2>=2.3.7; python_version < "3.4"
