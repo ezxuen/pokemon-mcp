@@ -1,6 +1,13 @@
-# Pokémon Battle Simulation - MCP Server
+# Pokémon Battle Simulation — MCP Server
 
 A comprehensive Model Context Protocol (MCP) server that provides AI models with access to Pokémon data and battle simulation capabilities. This server acts as a bridge between AI and the Pokémon world, enabling sophisticated battles and data analysis.
+
+MCP server exposing:
+
+- Resource: `pokemon://info/{name}` — structured JSON (stats, types, abilities, moves, evolution)
+- Tool: `simulate_pokemon_battle` — realistic battle simulation
+
+The database is built automatically on first run.
 
 ## Assessment Implementation
 
@@ -26,52 +33,44 @@ This project fulfills all requirements for the Pokémon Battle Simulation MCP Se
 - **Detailed Battle Logs**: Turn-by-turn action descriptions with damage calculations
 - **MCP Tool Interface**: Accessible via `simulate_pokemon_battle` tool
 
-## Quick Setup & Installation
+## Quick Start
 
-### Prerequisites
-
-- Python 3.8+
-
-### Installation Steps
-
-1. **Extract and navigate to the project**:
+### 1) Clone & enter
 
 ```bash
-# If you received a ZIP file, extract it first
-unzip pokemon-mcp-server.zip
-cd pokemon-mcp-server
+git clone <your-repo-url> pokemon-mcp
+cd pokemon-mcp
 ```
 
-2. **Set up virtual environment**:
+### 2) Virtual environment
+
+**Windows (PowerShell):**
+
+```powershell
+python -m venv venv
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.env\Scripts\Activate.ps1
+```
+
+**macOS/Linux:**
 
 ```bash
-python -m venv venv
-
-# Activate virtual environment:
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
+python3 -m venv venv
 source venv/bin/activate
 ```
 
-3. **Install dependencies**:
+### 3) Install dependencies
 
 ```bash
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-4. **Initialize the database** (one-time setup, takes ~3-5 minutes):
+### 4) Run the server manually (optional check)
 
 ```bash
-python src/init_database.py
-```
-
-_This downloads PokeAPI data and builds a local SQLite database_
-
-5. **Run the MCP server**:
-
-```bash
-python server.py
+# If server.py is at repo root:
+python -m server
 ```
 
 The server will start and display:
@@ -80,6 +79,63 @@ The server will start and display:
 Pokemon Battle Simulation Server ready!
 Starting MCP server...
 ```
+
+## Claude Desktop Integration
+
+Edit the config location:
+
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+Or via the app: Claude Desktop → Settings → Developer → Edit Config (create the file if missing).
+
+### Windows config (uses bundled launcher)
+
+```json
+{
+  "mcpServers": {
+    "pokemon-mcp": {
+      "command": "C:\\absolute\\path\\to\\pokemon-mcp\\run_server.cmd",
+      "cwd": "C:\\absolute\\path\\to\\pokemon-mcp"
+    }
+  }
+}
+```
+
+### macOS/Linux config (uses bundled launcher)
+
+First, make the launcher executable:
+
+```bash
+chmod +x run_server.sh
+```
+
+Then set:
+
+```json
+{
+  "mcpServers": {
+    "pokemon-mcp": {
+      "command": "/absolute/path/to/pokemon-mcp/run_server.sh",
+      "cwd": "/absolute/path/to/pokemon-mcp"
+    }
+  }
+}
+```
+
+After editing, fully restart Claude Desktop (it caches MCP capabilities).
+
+## Using the MCP Interfaces
+
+### Resource
+
+- URI: `pokemon://info/{name}`
+- In Claude: Add from server → select Pokémon Info → set `name` (e.g., `Pichu`).
+
+### Tool
+
+- Name: `simulate_pokemon_battle`
+- Args: `pokemon1_name`, `pokemon2_name`, `detailed` (optional)
 
 ## Usage Examples
 
@@ -162,23 +218,6 @@ Returns: Complete JSON with stats, types, abilities, moves, and evolution data
 }
 ```
 
-## Testing the Implementation
-
-### Test the Resource
-
-```bash
-# In another terminal, you can test the resource using MCP client tools
-# or by integrating with an LLM that supports MCP
-```
-
-### Test Available Pokémon
-
-Some Pokémon you can test with:
-
-- `pikachu`, `charizard`, `blastoise`, `venusaur`
-- `mewtwo`, `mew`, `alakazam`, `machamp`
-- `gyarados`, `dragonite`, `tyranitar`, `lucario`
-
 ### Example LLM Queries
 
 Once connected to an LLM with MCP support, you can ask:
@@ -218,7 +257,7 @@ The server uses a comprehensive SQLite database with:
 - **Abilities** with descriptions
 - **Evolution chains** and species relationships
 
-## Project Architecture
+## Project Structure
 
 ```
 src/

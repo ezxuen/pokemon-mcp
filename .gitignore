@@ -1,11 +1,8 @@
-# Python
-__pycache__/
-*.pyc
+__pycache__/    
+*.pyc   
 *.pyo
 *.egg-info/
-*.egg
-
-# Virtual environments
+*.egg   
 .env
 .venv
 env/
@@ -13,8 +10,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-
-# IDE
+/data/pokemon.db
 .vscode/
 .idea/
 *.swp
@@ -24,3 +20,4 @@ csv_cache/
 logs/
 *.log
 .mcp/
+pokemon.db
