@@ -38,7 +38,7 @@ This project fulfills all requirements for the Pokémon Battle Simulation MCP Se
 ### 1) Clone & enter
 
 ```bash
-git clone <your-repo-url> pokemon-mcp
+git clone <repo-url> pokemon-mcp
 cd pokemon-mcp
 ```
 
